@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="create_activity_from_protocol_action"
+                    name="Crea Attivita"
+                    src_model="protocollo.protocollo"
+                    res_model="create.activity.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"
+                    groups="seedoo_protocollo.group_protocollo_user"/>
+
+        <!-- wizard view -->
+        <record id="create_activity_view" model="ir.ui.view">
+            <field name="name">Crea Attivita</field>
+            <field name="model">create.activity.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Attivita" version="7.0">
+                    <sheet>
+                        <group>
+
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only"/>
+                                <field name="name"/>
+                                <label for="descrizione" class="oe_edit_only"/>
+                                <field name="descrizione"/>
+                            </div>
+
+                            <group>
+                                <field name="categoria" required="1"/>
+
+                                <field name="assegnatario_id" required="1"/>
+
+                                <field name="priorita" required="1"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Procedi" name="action_request" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

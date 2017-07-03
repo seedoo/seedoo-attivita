@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='wizard_attivita_form'>
+            <field name="name">wizard.attivita.form</field>
+            <field name="model">attivita.wizard.attivita</field>
+            <field name="arch" type="xml">
+                <form string="Attività" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="case" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="annulla" string="Annulla Attività"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('case','!=','annulla')]}"/>
+                        <button name="rifiuta" string="Rifiuta Assegnazione"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('case','!=','rifiuto')]}"/>
+                        <button name="integrazione"
+                                string="Richiedi Integrazione"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('case','!=','integrazione')]}"/>
+                        or
+                        <button string="Cancel" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_attivita" model="ir.actions.act_window">
+            <field name="name">Wizard Attività</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attivita.wizard.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="wizard_attivita_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

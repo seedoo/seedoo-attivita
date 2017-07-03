@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='registra_aggiornamento_form'>
+            <field name="name">registra.aggiornamento.form</field>
+            <field name="model">attivita.registra.aggiornamento</field>
+            <field name="arch" type="xml">
+                <form string="Aggiornamento" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="avanzamento_attivita"/>
+                            <field name="avanzamento"
+                                   attrs="{'invisible': [('avanzamento_attivita','=', False)]}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="registra" string="Registra" type="object"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_registra_aggiornamento"
+                model="ir.actions.act_window">
+            <field name="name">Registra Aggiornamento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attivita.registra.aggiornamento</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="registra_aggiornamento_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <record model='ir.ui.view' id='gedoc_document_tree'>
+            <field name="name">gedoc.document.tree</field>
+            <field name="model">gedoc.document</field>
+            <field name="inherit_id" ref="seedoo_gedoc.gedoc_document_tree"/>
+            <field name="arch" type="xml">
+                <tree string="Documento" position="replace">
+                    <tree string="Documento" version="7.0"
+                          colors="blue:state=='draft';green:state=='protocol'">
+                        <field name="document_type"/>
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="state"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='gedoc_document_form'>
+            <field name="name">gedoc.document.form</field>
+            <field name="model">gedoc.document</field>
+            <field name="inherit_id" ref="seedoo_gedoc.gedoc_document_form"/>
+            <field name="arch" type="xml">
+                <button name="%(seedoo_gedoc.gedoc_upload_doc_wizard_action)d"
+                        position="replace">
+                    <button name="%(seedoo_gedoc.gedoc_upload_doc_wizard_action)d"
+                            type='action'
+                            string='Carica Documento'
+                            attrs="{'invisible': ['|',('state','!=','draft'),('main_doc_id','!=',False)]}"
+                            groups="seedoo_gedoc.group_gedoc_user"/>
+                </button>
+
+                <button name="%(seedoo_gedoc.gedoc_upload_doc_wizard_action)d"
+                        position="after">
+                    <button name="%(protocollo_richiesta_action)d"
+                            type="action"
+                            attrs="{'invisible': ['|',('state','!=','draft'),('main_doc_id','=',False)]}"
+                            string="Richiedi Protocollazione"
+                            class="oe_highlight_positive"/>
+                    <button name="generate_msg"
+                            string="Richiedi Protocollazione"
+                            type="object" class="oe_highlight_positive"
+                            attrs="{'invisible': ['|',('state','!=','draft'),('main_doc_id','!=',False)]}"/>
+
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,protocol"
+                           statusbar_colors='{"draft":"blue","notified":"red"}'/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

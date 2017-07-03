@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- Fatto -->
+        <record id="template_email_notifica_referente_rifiuto"
+                model="email.template">
+            <field name="name">Notifica Referente in caso di rifiuto</field>
+            <field name="email_from">
+                ${(object.assegnatario_id.email or object.company_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.referente_id.email}</field>
+            <field name="subject">Attività Rifiutata: ${object.name}</field>
+            <field name="model_id" ref="attivita.model_attivita_attivita"/>
+        </record>
+        <!-- Fatto -->
+        <record id="template_email_notifica_referente_presa_carico"
+                model="email.template">
+            <field name="name">Notifica Referente in caso di presa in carico
+            </field>
+            <field name="email_from">
+                ${(object.assegnatario_id.email or object.company_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.referente_id.email}</field>
+            <field name="subject">Attività Presa in Carico: ${object.name}
+            </field>
+            <field name="model_id" ref="attivita.model_attivita_attivita"/>
+        </record>
+        <!-- Fatto -->
+        <record id="template_email_notifica_referente_chiusura"
+                model="email.template">
+            <field name="name">Notifica Referente in caso di chiusura</field>
+            <field name="email_from">
+                ${(object.assegnatario_id.email or object.company_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.referente_id.email}</field>
+            <field name="subject">Attività Chiusa: ${object.name}</field>
+            <field name="model_id" ref="attivita.model_attivita_attivita"/>
+        </record>
+        <!-- Fatto -->
+        <record id="template_email_notifica_assegnatario_assegnazione"
+                model="email.template">
+            <field name="name">Notifica Assegnatario in fase di assegnazione
+            </field>
+            <field name="email_from">
+                ${(object.referente_id.email or object.company_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.assegnatario_id.email}</field>
+            <field name="subject">Assegnata Attività: ${object.name}</field>
+            <field name="model_id" ref="attivita.model_attivita_attivita"/>
+        </record>
+
+
+        <!-- Fatto -->
+        <record id="template_email_notifica_assegnatario_annullamento"
+                model="email.template">
+            <field name="name">Notifica Assegnatario in caso di annullamento
+            </field>
+            <field name="email_from">
+                ${(object.referente_id.email or object.company_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.assegnatario_id.email}</field>
+            <field name="subject">Annullata Attività: ${object.name}</field>
+            <field name="model_id" ref="attivita.model_attivita_attivita"/>
+        </record>
+
+        <record id="template_email_notifica_referente_aggiornamento"
+                model="email.template">
+            <field name="name">Notifica Referente in caso di Aggiornamento
+            </field>
+            <field name="email_from">
+                ${(object.attivita_id.assegnatario_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.attivita_id.referente_id.email}
+            </field>
+            <field name="subject">Nuovo Aggiornamento Attività:
+                ${object.attivita_id.name}
+            </field>
+            <field name="model_id"
+                   ref="attivita.model_attivita_aggiornamento"/>
+        </record>
+
+        <record id="template_email_notifica_interessati_aggiornamento"
+                model="email.template">
+            <field name="name">Notifica altri soggetti Interessati in caso di
+                Aggiornamento
+            </field>
+            <field name="email_from">
+                ${(object.attivita_id.assegnatario_id.email or 'noreply@localhost')}
+            </field>
+            <field name="email_to">${object.email_interessati}</field>
+            <field name="subject">Nuovo Aggiornamento Attività:
+                ${object.attivita_id.name}
+            </field>
+            <field name="model_id"
+                   ref="attivita.model_attivita_aggiornamento"/>
+        </record>
+
+    </data>
+</openerp>

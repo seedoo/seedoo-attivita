@@ -1,0 +1,9 @@
+.info_message {
+	padding: 20px;
+	color:  rgba(40, 40, 40, 0.9);
+  	border: solid 1px #666666;
+  	/*background: rgba(75, 106, 205, 0.5);*/
+  	background: rgba(8, 8, 8, 0.05);
+}
+
+

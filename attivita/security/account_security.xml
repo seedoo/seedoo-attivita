@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+        <record id="res_groups_attivita_manager" model="res.groups">
+            <field name="name">Manager Attivita</field>
+        </record>
+
+        <record id="res_groups_attivita_monitor" model="res.groups">
+            <field name="name">Monitoraggio Attivita</field>
+        </record>
+        <record id="res_groups_referente" model="res.groups">
+            <field name="name">Referente Attivita</field>
+        </record>
+
+        <record id="res_groups_assegnatario" model="res.groups">
+            <field name="name">Assegnatario Attività</field>
+        </record>
+    </data>
+    <data noupdate="0">
+        <record id="attivita_manager_rule" model="ir.rule">
+            <field name="name">Manager Attivita</field>
+            <field name="model_id" ref="model_attivita_attivita"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('res_groups_attivita_manager'))]"/>
+        </record>
+        <record id="attivita_monitor_rule" model="ir.rule">
+            <field name="name">Monitoraggio Attivita</field>
+            <field name="model_id" ref="model_attivita_attivita"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('res_groups_attivita_monitor'))]"/>
+        </record>
+        <record id="attivita_referente_rule" model="ir.rule">
+            <field name="name">Attivita Referente</field>
+            <field name="model_id" ref="model_attivita_attivita"/>
+            <field name="groups" eval="[(4, ref('res_groups_referente'))]"/>
+            <field name="domain_force">[('referente_id','=',[user.id])]</field>
+        </record>
+        <record id="attivita_assegnatario_rule" model="ir.rule">
+            <field name="name">Attivita Assegnatario</field>
+            <field name="model_id" ref="model_attivita_attivita"/>
+            <field name="groups" eval="[(4, ref('res_groups_assegnatario'))]"/>
+            <field name="domain_force">[('assegnatario_id','=',[user.id])]
+            </field>
+        </record>
+        <record id="attivita_aggiornamenti_rule" model="ir.rule">
+            <field name="name">Attivita Aggiornamenti</field>
+            <field name="model_id" ref="model_attivita_aggiornamento"/>
+            <field name="groups"
+                   eval="[(4,ref('res_groups_assegnatario')),(4,ref('res_groups_referente'))]"/>
+            <field name="domain_force">
+                ['|',('referente_id','=',[user.id]),('autore_id','=',[user.id])]
+            </field>
+        </record>
+
+    </data>
+</openerp>

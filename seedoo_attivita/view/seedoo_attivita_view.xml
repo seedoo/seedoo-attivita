@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <record model='ir.ui.view' id='attivita_categoria_protocollo_form'>
+            <field name="name">attivita.categoria.form</field>
+            <field name="model">attivita.categoria</field>
+            <field name="inherit_id" ref="attivita.attivita_categoria_form"/>
+            <field name="arch" type="xml">
+                <field name="tempo_standard" position="after">
+                    <field name="protocollo"/>
+                </field>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_protocollo_attivita_form'>
+            <field name="name">protocollo.protocollo.form</field>
+            <field name="model">protocollo.protocollo</field>
+            <field name="inherit_id"
+                   ref="seedoo_protocollo.protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+                <page string="Storico Modifiche" position="after">
+                    <page string="Attivita Correlate">
+                        <group>
+                            <button name="%(create_activity_from_protocol_action)d"
+                                    type='action'
+                                    states="registered,notified,sent,waiting,error"
+                                    string="Crea Attivita"
+                                    class="oe_highlight_positive"/>
+                        </group>
+                        <newline/>
+                        <field name="attivita_ids"/>
+                    </page>
+                </page>
+                <page string="Segnatura XML" position="after">
+                    <page string="Azioni">
+                        <group col="4">
+                            <group>
+                                <button name="%(protocollo_cancellation_action)d"
+                                        type='action'
+                                        states="registered,notified,sent,waiting,error"
+                                        string="Richiesta Annullamento Protocollo"
+                                        class="oe_highlight_positive"/>
+                            </group>
+                            <newline/>
+                        </group>
+                    </page>
+                </page>
+
+
+                <field name="dossier_ids" position="before">
+                    <button name="%(protocollo_folder_action)d" type='action'
+                            states="registered,notified,sent,waiting,error"
+                            string="Richiedi Fascicolazione"
+                            class="oe_highlight_assertive"/>
+                    <newline/>
+                </field>
+                <field name="classification" position="before">
+                    <button name="%(protocollo_classify_action)d" type='action'
+                            states="registered,notified,sent,waiting,error"
+                            string="Richiedi Classificazione"
+                            class="oe_highlight_positive"/>
+                    <newline/>
+                </field>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='attivita_attivita_protocollo_form'>
+            <field name="name">attivita.attivita.form</field>
+            <field name="model">attivita.attivita</field>
+            <field name="inherit_id" ref="attivita.attivita_attivita_form"/>
+            <field name="arch" type="xml">
+                <field name="ultimo_aggiornamento" position="after">
+                    <field name="template" invisible="1"/>
+                    <field name="protocollo" invisible="1"/>
+                    <field name="protocollo_id"
+                           attrs="{'invisible': [('protocollo','=', False)]}"/>
+                    <field name="titolario_id"
+                           attrs="{'invisible': [('template','=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record model='ir.ui.view'
+                id='protocollo_classification_attivita_form'>
+            <field name="name">protocollo.classification.form</field>
+            <field name="model">protocollo.classification</field>
+            <field name="inherit_id"
+                   ref="seedoo_gedoc.protocollo_classification_form"/>
+            <field name="priority" eval="5"/>
+            <field name="arch" type="xml">
+                <page string="Fascicoli" position="after">
+                    <page string="Attivita">
+                        <field name="attivita_ids" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_action'>
+            <field name="name">Attività</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="domain">[('template','=',False)]</field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_pending_action'>
+            <field name="name">Attività Assegnate da me</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">
+                [('template','=',False),('state','=','assegnato'),('referente_id','=',uid)]
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_assegnate_action'>
+            <field name="name">Attività Assegnate a me</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">
+                [('template','=',False),('state','=','assegnato'),('assegnatario_id','=',uid)]
+            </field>
+        </record>
+
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_lavorazione_action'>
+            <field name="name">Attività in lavorazione</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">
+                [('template','=',False),('state','=','lavorazione'),('assegnatario_id','=',uid)]
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_concluse_action'>
+            <field name="name">Attività Concluse</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">
+                [('template','=',False),('state','=','concluso'),('referente_id','=',uid)]
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita_attivita_kanban_action'>
+            <field name="name">Le mie attività Attività</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">
+                [('template','=',False),('assegnatario_id','=',uid),('state','in',['assegnato','lavorazione'])]
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window'
+                id='attivita.attivita_attivita_archiviate_action'>
+            <field name="name">Attività Archiviate</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">
+                [('template','=',False),('state','=','chiuso'),('referente_id','=',uid)]
+            </field>
+        </record>
+
+        <record id="attivita.action_view_attivita_performance_tree"
+                model="ir.actions.act_window">
+            <field name="name">Attivita Performance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attivita.attivita</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">graph,tree</field>
+            <field name="view_id" ref="attivita.attivita_performance_tree"/>
+            <field name="domain">[('template','=',False)]</field>
+        </record>
+
+        <menuitem name="Kanban" id="menu_attivita_kanban"
+                  parent="attivita.menu_attivita" sequence="8"
+                  action="attivita_attivita_kanban_action"/>
+
+    </data>
+</openerp>

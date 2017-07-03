@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_seedoo_attivita_sender_receiver_user,seedoo.attivita.sender_receiver.simple.user,seedoo_protocollo.model_protocollo_sender_receiver,seedoo_protocollo.group_protocollo_user,1,1,1,0
+access_seedoo_attivita_protocollo_user,seedoo.attivita.protocollo.simple.user,seedoo_protocollo.model_protocollo_protocollo,seedoo_protocollo.group_protocollo_user,1,1,1,0
+access_seedoo_attivita_emergency_registry_user,seedoo.attivita.emergency.registry.simple.user,seedoo_protocollo.model_protocollo_emergency_registry,seedoo_protocollo.group_protocollo_user,1,1,1,0

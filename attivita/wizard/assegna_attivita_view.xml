@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='assegna_attivita_form'>
+            <field name="name">assegna.attivita.form</field>
+            <field name="model">attivita.assegna.attivita</field>
+            <field name="arch" type="xml">
+                <form string="Attività" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="presa_carico_libera" invisible="1"/>
+                            <field name="assegnatario_id"/>
+                            <field name="data_scadenza"/>
+                            <field name="notifica"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="assegna" string="Assegna Attività"
+                                type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_assegna_attivita" model="ir.actions.act_window">
+            <field name="name">Assegna Attività</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attivita.assegna.attivita</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="assegna_attivita_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

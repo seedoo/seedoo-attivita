@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_richiesta_action"
+                    name="Richiedi Protocollazione"
+                    src_model="gedoc.document"
+                    res_model="gedoc.document.richiesta.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"
+                    groups="seedoo_protocollo.group_protocollo_user"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_richiesta_view" model="ir.ui.view">
+            <field name="name">Richiedi Protocollazione</field>
+            <field name="model">gedoc.document.richiesta.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Richiesta Protocollo" version="7.0">
+                    <sheet>
+                        <group col="4">
+                            <group col="4" colspan="2">
+                                <field name="typology"/>
+                                <newline/>
+                            </group>
+                            <group col="4" colspan="2">
+                            </group>
+                            <group col="4" colspan="4">
+                                <field name="note_protocollazione" colspan="4"/>
+                                <field name="sender_receivers" colspan="4">
+                                    <tree>
+                                        <field name="type"/>
+                                        <field name="partner_id"/>
+                                        <field name="name" string="Nome Cognome/Ragione Sociale"/>
+                                        <field name="street"/>
+                                        <field name="zip"/>
+                                        <field name="city"/>
+                                        <field name="country_id"/>
+                                        <field name="email"/>
+                                        <field name="pec_mail"/>
+                                        <field name="phone"/>
+                                    </tree>
+                                    <form string="Mittenti/Destinatari">
+                                        <sheet>
+                                            <div>
+                                                <group col="8">
+                                                    <field name="save_partner"
+                                                           attrs="{'readonly': ['|',('partner_id','!=',False),('partner_id','is not',None)]}"/>
+                                                </group>
+                                            </div>
+                                            <div class="gedoc_header">
+                                                <group col="4">
+                                                    <field name="type"/>
+                                                    <field name="partner_id" on_change="on_change_partner(partner_id)"
+                                                           attrs="{'readonly': [('save_partner','=',True)]}"/>
+                                                </group>
+                                                <group col="4">
+                                                    <group col="4" colspan="2">
+                                                        <field name="name" colspan="4"/>
+                                                    </group>
+                                                    <group col="4" colspan="2">
+                                                        <field name="ammi_code"
+                                                               attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"/>
+                                                        <field name="ident_code"
+                                                               attrs="{'readonly': [('type','in',('legal', 'individual'))]}"/>
+                                                    </group>
+                                                </group>
+                                            </div>
+                                            <div>
+                                                <group col="4">
+                                                    <separator string="Info di Recapito" colspan="4"/>
+                                                    <field name="street"/>
+                                                    <field name="zip"/>
+                                                    <field name="city"/>
+                                                    <field name="country_id"/>
+                                                    <field name="pec_mail"/>
+                                                    <field name="email"/>
+                                                    <field name="phone"/>
+                                                    <field name="fax"/>
+                                                    <field name="mobile"/>
+
+                                                    <separator string="Info di Spedizione" colspan="4"/>
+                                                    <field name="send_type"/>
+                                                    <field name="send_date"/>
+                                                    <separator string="Note"/>
+                                                    <field name="notes" nolabel="1" colspan="4"/>
+                                                </group>
+                                            </div>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Procedi" name="action_request" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
