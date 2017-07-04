@@ -20,11 +20,10 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Richiesta Protocollo" version="7.0">
                     <sheet>
                         <group col="4">
-                            <group col="4" colspan="2">
+                            <group col="4">
                                 <field name="typology"/>
-                                <newline/>
-                            </group>
-                            <group col="4" colspan="2">
+                                <field name="receiving_date"/>
+                                <field name="user_id"/>
                             </group>
                             <group col="4" colspan="4">
                                 <field name="note_protocollazione" colspan="4"/>

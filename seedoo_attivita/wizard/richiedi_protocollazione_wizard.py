@@ -111,16 +111,17 @@ class document_request_sender_receiver_wizard(osv.TransientModel):
         ]
 
         _columns = {
-            'typology': fields.many2one('protocollo.typology', 'Tipologia', required=True,
+            'typology': fields.many2one('protocollo.typology', 'Mezzo di Trasmissione', required=True,
                                         help="Tipologia invio/ricevimento: Raccomandata, Fax, PEC, etc. si possono inserire nuove tipologie dal menu Tipologie."),
-
+            'user_id': fields.many2one('res.users', 'Protocollatore', required=True),
             'sender_receivers': fields.one2many(
                 'document.request.sender_receiver.wizard',
                 'wizard_id',
-                'Mittenti/Destinatari',
+                'Destinatari',
                 required=True),
 
             'note_protocollazione': fields.text('Note Protocollazione', required=True),
+            'receiving_date': fields.datetime('Data Ricezione', required=True),
             'state': fields.selection(STATE_SELECTION, 'Stato', readonly=True, help="Lo stato del documento.",
                                       select=True)
         }
@@ -158,6 +159,8 @@ class document_request_sender_receiver_wizard(osv.TransientModel):
         # crea l'istanza protocollo
             protocollo_vals = {
                 'subject': gedoc.subject,
+                'receiving_date': wizard.receiving_date,
+                'user_id': wizard.user_id.id,
                 'notes': wizard.note_protocollazione,
                 'sender_receivers': [(6, 0, sender_receiver)],
                 'typology': wizard.typology.id,
@@ -179,10 +182,7 @@ class document_request_sender_receiver_wizard(osv.TransientModel):
                 category = categoria_obj.browse(cr, uid, category_ids[0])
                 tempo_esecuzione_attivita = category.tempo_standard
             data_scadenza = now + datetime.timedelta(days=tempo_esecuzione_attivita)
-            users_manager = self.pool.get('res.users').get_users_from_group(cr, uid, 'Manager protocollo')
-            list_ids = list(users_manager.ids)
-            list_ids.remove(SUPERUSER_ID)
-            assegnatario_id = list_ids[0]
+            assegnatario_id = wizard.user_id.id
 
         # cambia lo stato del documento
             if 'active_id' in context.keys():
@@ -194,7 +194,7 @@ class document_request_sender_receiver_wizard(osv.TransientModel):
                     'name': "Richiesta protocollazione documento %s da %s " % (gedoc.name, user_value.login),
                     'descrizione': gedoc.subject,
                     'priorita': '3',
-                    'referente_id': prot.user_id.id,
+                    'referente_id': wizard.user_id.id,
                     'assegnatario_id': assegnatario_id,
                     'state': 'assegnato',
                     'data_scadenza': data_scadenza,
