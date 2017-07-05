@@ -168,7 +168,8 @@ class document_request_sender_receiver_wizard(osv.TransientModel):
                 'doc_id': gedoc.main_doc_id.id,
                 'datas_fname': gedoc.main_doc_id.name,
                 'mimetype': gedoc.main_doc_id.file_type,
-                'datas': gedoc.main_doc_id.datas
+                'datas': gedoc.main_doc_id.datas,
+                'protocol_request': True
             }
             prot_id = self.pool.get("protocollo.protocollo").create(cr, SUPERUSER_ID, protocollo_vals, context=None)
 
