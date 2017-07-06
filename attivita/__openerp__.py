@@ -3,19 +3,17 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'attivita',
-    'version': '1.0',
-    'author': 'Flosslab S.r.l',
-    'sequence': 1,
-    'category': 'Processi',
-    'website': 'http://www.flosslab.com',
-    'description': """
-Gestione della attività
-""",
+    'name': 'Attività',
+    'version': '8.0.0.0.0',
+    'category': 'Process',
+    'summary': 'Gestione Attività',
+    'author': 'Flosslab',
+    'website': 'http://www.flosslab.com.',
+    'license': 'AGPL-3',
     'css': [
         "static/src/css/style.css",
     ],
-    'depends': [
+    "depends": [
         'base_setup',
         'board',
         'mail',
@@ -23,7 +21,7 @@ Gestione della attività
         'web_kanban',
         'hr',
     ],
-    'data': [
+    "data": [
         'security/account_security.xml',
         'security/ir.model.access.csv',
         'wizard/assegna_attivita_view.xml',
@@ -32,12 +30,12 @@ Gestione della attività
         'view/attivita_view.xml',
         'data/email_notifications.xml'
     ],
-    'images': [],
-    'update_xml': [],
+    "images": [],
+    "update_xml": [],
 
-    'demo': [],
-    'application': True,
-    'installable': True,
+    "demo": [],
+    "application": True,
+    "installable": True,
 }
 #
 ##############################################################################
