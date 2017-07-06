@@ -4,7 +4,7 @@
 
 {
     'name': 'Attività',
-    'version': '8.0.0.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Process',
     'summary': 'Gestione Attività',
     'author': 'Flosslab',
