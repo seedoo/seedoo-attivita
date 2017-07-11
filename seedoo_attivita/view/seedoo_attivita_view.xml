@@ -51,20 +51,19 @@ this module contains the full copyright notices and license terms. -->
                     </page>
                 </page>
 
-
-                <field name="dossier_ids" position="before">
-                    <button name="%(protocollo_folder_action)d" type='action'
-                            states="registered,notified,sent,waiting,error"
-                            string="Richiedi Fascicolazione"
-                            class="oe_highlight_assertive"/>
-                    <newline/>
-                </field>
-                <field name="classification" position="before">
+                <field name="classification" position="after">
+                    <group/><newline/>
                     <button name="%(protocollo_classify_action)d" type='action'
                             states="registered,notified,sent,waiting,error"
                             string="Richiedi Classificazione"
                             class="oe_highlight_positive"/>
-                    <newline/>
+                </field>
+                <field name="dossier_ids" position="after">
+                    <group/><newline/>
+                    <button name="%(protocollo_folder_action)d" type='action'
+                            states="registered,notified,sent,waiting,error"
+                            string="Richiedi Fascicolazione"
+                            class="oe_highlight_positive"/>
                 </field>
             </field>
         </record>
