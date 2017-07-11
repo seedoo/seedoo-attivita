@@ -12,6 +12,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <field name="tempo_standard" position="after">
                     <field name="protocollo"/>
+                    <field name="azione"/>
                 </field>
             </field>
         </record>

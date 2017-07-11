@@ -19,6 +19,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="descrizione"/>
                                 <field name="attiva"/>
                                 <field name="tempo_standard"/>
+                                <field name="singola_azione"/>
                             </group>
                         </group>
 
@@ -90,14 +91,22 @@ this module contains the full copyright notices and license terms. -->
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 type="action" states="assegnato"
                                 class="oe_highlight"/>
-                        <button name="prendi_carico" string="Prendi in carico"
-                                groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
-                                type="object" states="assegnato"
-                                class="oe_highlight"/>
-                        <button name="concludi" string="Concludi"
-                                groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
-                                type="object" states="lavorazione"
-                                class="oe_highlight"/>
+                         <div attrs="{'invisible':[('singola_azione','=', True)]}" style="display: inline">
+                                <button name="prendi_carico" string="Prendi in carico"
+                                        groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
+                                        type="object" states="assegnato"
+                                        class="oe_highlight"/>
+                                <button name="concludi" string="Concludi"
+                                        groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
+                                        type="object" states="lavorazione"
+                                        class="oe_highlight"/>
+                        </div>
+                        <div attrs="{'invisible':[('singola_azione','!=', True)]}" style="display: inline">
+                            <button name="prendi_carico" string="Esegui"
+                                    groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
+                                    type="object" states="assegnato"
+                                    class="oe_highlight"/>
+                        </div>
                         <button name="valida" string="Valida e chiudi"
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 type="object" states="concluso"
@@ -117,6 +126,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <field name="singola_azione" invisible="1"/>
                         <field name="richiesta_integrazione" invisible="1"/>
 
                         <div class="info_message"

@@ -8,6 +8,7 @@ import logging
 from openerp.osv import *
 import datetime
 from openerp import SUPERUSER_ID
+from openerp.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
@@ -17,6 +18,8 @@ class attivita_categoria(osv.Model):
 
     _columns = {
         'protocollo': fields.boolean("Categoria di protocollo"),
+        'azione': fields.many2one('ir.actions.act_window',
+                                  'Azione'),
     }
 
 
@@ -49,6 +52,26 @@ class attivita_attivita(orm.Model):
         attivita_id = super(attivita_attivita, self).create(cr, uid, data,
                                                             context=context)
         return attivita_id
+
+    def prendi_carico(self, cr, uid, ids, context=None):
+        result = super(attivita_attivita, self).prendi_carico(cr, uid, ids, context)
+        attivita = self.browse(cr, uid, ids[0])
+        if attivita.categoria.azione and attivita.protocollo:
+            azione = attivita.categoria.azione
+            context['active_id'] = attivita.protocollo_id.id
+            context['attivita_id'] = attivita.id
+            return {
+                'name': _("Esegui"),
+                'view_mode': 'form',
+                'view_id': azione.view_id.id,
+                'view_type': 'form',
+                'res_model': azione.res_model,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'context': context
+            }
+        return result
+
 
 
 class protocollo_classification(orm.Model):

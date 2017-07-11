@@ -79,6 +79,8 @@ class attivita_categoria(osv.Model):
         'attiva': fields.boolean('Attiva'),
         'tempo_standard': fields.integer(
             'Tempo Standard di Realizzazione (in gg)'),
+        'singola_azione': fields.boolean(
+            'Singola Azione'),
     }
 
     _defaults = {
@@ -175,6 +177,10 @@ class attivita_attivita(osv.Model):
                                          help="Calcolato dala differenza: Data Conclusione - Data Scadenza",
                                          store=True, group_operator="avg"),
         'categoria': fields.many2one('attivita.categoria', 'Categoria'),
+        'singola_azione': fields.related('categoria',
+                                     'singola_azione',
+                                     type='boolean',
+                                     string='Singola Azione', )
     }
 
     _defaults = {
