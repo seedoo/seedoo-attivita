@@ -13,16 +13,21 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Categoria" version="7.0">
                     <sheet>
                         <group>
-                            <group>
                                 <field name="name"/>
                                 <field name="parent_id"/>
                                 <field name="descrizione"/>
                                 <field name="attiva"/>
                                 <field name="tempo_standard"/>
-                                <field name="singola_azione"/>
-                            </group>
-                        </group>
 
+                        </group>
+                        <group col="8">
+                            <separator string="Configurazione Flusso Attività"
+                                                   colspan="8"/>
+                                <field name="singola_azione"/>
+                                <field name="smistabile"/>
+                                <field name="automatica"/>
+                                <field name="richiede_validazione"/>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -37,6 +42,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="parent_id"/>
                     <field name="descrizione"/>
                     <field name="attiva"/>
+                    <field name="tempo_standard"/>
                 </tree>
             </field>
         </record>
@@ -54,6 +60,11 @@ this module contains the full copyright notices and license terms. -->
                     <field name="parent_id"/>
                     <field name="descrizione"/>
                     <field name="attiva"/>
+                    <field name="tempo_standard"/>
+                    <field name="singola_azione"/>
+                    <field name="smistabile"/>
+                    <field name="automatica"/>
+                    <field name="richiede_validazione"/>
                 </search>
             </field>
         </record>
@@ -86,12 +97,14 @@ this module contains the full copyright notices and license terms. -->
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 type="action" states="draft"
                                 class="oe_highlight"/>
+                        <div attrs="{'invisible':[('smistabile','!=', True)]}" style="display: inline">
                         <button name="%(action_assegna_attivita)d"
                                 string="Smista"
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 type="action" states="assegnato"
                                 class="oe_highlight"/>
-                         <div attrs="{'invisible':[('singola_azione','=', True)]}" style="display: inline">
+                        </div>
+                         <div attrs="{'invisible':['|',('singola_azione','=', True),('automatica','=', True)]}" style="display: inline">
                                 <button name="prendi_carico" string="Prendi in carico"
                                         groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                         type="object" states="assegnato"
@@ -101,16 +114,18 @@ this module contains the full copyright notices and license terms. -->
                                         type="object" states="lavorazione"
                                         class="oe_highlight"/>
                         </div>
-                        <div attrs="{'invisible':[('singola_azione','!=', True)]}" style="display: inline">
+                        <div attrs="{'invisible':['|',('singola_azione','!=', True),('automatica','=', True)]}" style="display: inline">
                             <button name="prendi_carico" string="Esegui"
                                     groups="attivita.res_groups_assegnatario,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                     type="object" states="assegnato"
                                     class="oe_highlight"/>
                         </div>
+                        <div attrs="{'invisible':[('richiede_validazione','!=', True)]}" style="display: inline">
                         <button name="valida" string="Valida e chiudi"
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 type="object" states="concluso"
                                 class="oe_highlight"/>
+                        </div>
                         <button name="%(action_wizard_attivita)d"
                                 groups="attivita.res_groups_referente,attivita.res_groups_attivita_manager,base.group_erp_manager"
                                 string="Annulla" type="action"
@@ -126,7 +141,10 @@ this module contains the full copyright notices and license terms. -->
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <field name="automatica" invisible="1"/>
+                        <field name="richiede_validazione" invisible="1"/>
                         <field name="singola_azione" invisible="1"/>
+                        <field name="smistabile" invisible="1"/>
                         <field name="richiesta_integrazione" invisible="1"/>
 
                         <div class="info_message"

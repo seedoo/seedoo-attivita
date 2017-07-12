@@ -12,7 +12,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <field name="tempo_standard" position="after">
                     <field name="protocollo"/>
-                    <field name="azione"/>
+                </field>
+                <field name="singola_azione" position="after">
+                    <field name="azione" attrs="{'invisible': [('singola_azione','=', False)]}"/>
+                    <newline/>
                 </field>
             </field>
         </record>

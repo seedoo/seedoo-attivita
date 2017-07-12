@@ -81,6 +81,12 @@ class attivita_categoria(osv.Model):
             'Tempo Standard di Realizzazione (in gg)'),
         'singola_azione': fields.boolean(
             'Singola Azione'),
+        'smistabile': fields.boolean(
+            'Smistabile'),
+        'automatica': fields.boolean(
+            'Automatica'),
+        'richiede_validazione': fields.boolean(
+            'Richiede Validazione'),
     }
 
     _defaults = {
@@ -180,7 +186,19 @@ class attivita_attivita(osv.Model):
         'singola_azione': fields.related('categoria',
                                      'singola_azione',
                                      type='boolean',
-                                     string='Singola Azione', )
+                                     string='Singola Azione', ),
+        'smistabile': fields.related('categoria',
+                                         'smistabile',
+                                         type='boolean',
+                                         string='Smistabile', ),
+        'automatica': fields.related('categoria',
+                                     'automatica',
+                                     type='boolean',
+                                     string='Automatica', ),
+        'richiede_validazione': fields.related('categoria',
+                                     'richiede_validazione',
+                                     type='boolean',
+                                     string='Richiede Validazione', )
     }
 
     _defaults = {
@@ -308,6 +326,8 @@ class attivita_attivita(osv.Model):
         self.write(cr, uid, ids, {'state': 'concluso',
                                   'data_conclusione': time.strftime(
                                       "%Y-%m-%d"), 'avanzamento': 100})
+        if not self.browse(cr,uid,ids).richiede_validazione:
+            self.valida(cr,uid,ids)
         return True
 
     def valida(self, cr, uid, ids, context=None):

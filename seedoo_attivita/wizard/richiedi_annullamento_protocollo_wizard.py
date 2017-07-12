@@ -16,6 +16,28 @@ from openerp import SUPERUSER_ID
 _logger = logging.getLogger(__name__)
 
 
+class wizard_annulla(osv.TransientModel):
+    _inherit = 'protocollo.cancel.wizard'
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        attivita_obj = self.pool.get('attivita.attivita')
+        result = super(wizard_annulla, self).action_cancel(cr, uid, ids, context)
+        attivita_obj.synchro_protocol_action(context, cr, uid, 'seedoo_protocollo', 'protocollo_cancel_action')
+        attivita_aperte = attivita_obj.search(cr, uid,
+                                                [('protocollo_id', '=',
+                                                  context['active_id']),
+                                                 ('state', 'in',
+                                                  ['assegnato',
+                                                   'lavorazione'])])
+        for attivita in attivita_aperte:
+            attivita_obj.write(cr, SUPERUSER_ID, attivita,
+                               {'state': 'annullato',
+                                'data_conclusione': time.strftime("%Y-%m-%d"),
+                                'richiesta_integrazione': False,
+                                'motivazione_annullamento': 'Protocollo Annullato'})
+        return result
+
+
 class wizard(osv.TransientModel):
     """
         Wizard per la richiesta di annullamento protocollo
@@ -56,7 +78,7 @@ class wizard(osv.TransientModel):
             category = categoria_obj.browse(cr, uid, category_ids[0])
             tempo_esecuzione_attivita = category.tempo_standard
         data_scadenza = now + datetime.timedelta(days=tempo_esecuzione_attivita)
-        user = wizard.assegnatario.user_id
+        user = self.get_default_assegnatario(cr, uid, context)
         
         activity_vals = {
             'name': "Richiesta Annullamento protocollo num %s a %s " % (prot.name, user.partner_id.name),

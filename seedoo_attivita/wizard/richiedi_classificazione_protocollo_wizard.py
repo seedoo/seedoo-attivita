@@ -15,6 +15,15 @@ from openerp import SUPERUSER_ID
 _logger = logging.getLogger(__name__)
 
 
+class wizard_classifica(osv.TransientModel):
+    _inherit = 'protocollo.classifica.wizard'
+
+    def action_save(self, cr, uid, ids, context=None):
+        result = super(wizard_classifica, self).action_save(cr, uid, ids, context)
+        self.pool.get('attivita.attivita').synchro_protocol_action(context, cr, uid, 'seedoo_protocollo', 'protocollo_classifica_action')
+        return result
+
+
 class wizard(osv.TransientModel):
     """
         Wizard per la richiesta di classificazione

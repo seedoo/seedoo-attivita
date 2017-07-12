@@ -9,6 +9,7 @@ from openerp.osv import *
 import datetime
 from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
+import time
 
 _logger = logging.getLogger(__name__)
 
@@ -71,6 +72,35 @@ class attivita_attivita(orm.Model):
                 'context': context
             }
         return result
+
+
+    def synchro_protocol_action(self, context, cr, uid, module_action="", action_xml_id=""):
+        # Gestione attività correlate
+        attivita_ids = []
+        if context.has_key('attivita_id'):
+            attivita_ids = [context['attivita_id']]
+        dummy, action_id = self.pool.get(
+            'ir.model.data').get_object_reference(
+            cr, uid, module_action, action_xml_id)
+        category_ids = self.pool.get('attivita.categoria').search(cr, uid, [
+            ('azione', '=', action_id)])
+        attivita_ids.extend(self.search(cr, uid,
+                                                [('protocollo_id', '=',
+                                                  context['active_id']),
+                                                 ('assegnatario_id', '=', uid),
+                                                 ('categoria', 'in',
+                                                  category_ids),
+                                                 ('state', 'in',
+                                                  ['assegnato',
+                                                   'lavorazione'])]))
+        for attivita_id in attivita_ids:
+            self.write(cr, uid, attivita_id,
+                               {'assegnatario_id': uid, 'state': 'lavorazione',
+                                'data_presa_carico': time.strftime("%Y-%m-%d"),
+                                'richiesta_integrazione': False})
+
+            if self.browse(cr, uid, attivita_id).singola_azione:
+                self.concludi(cr, uid, attivita_id)
 
 
 
@@ -198,3 +228,69 @@ class protocollo_protocollo(orm.Model):
                 # TODO we need to use the uid instead of SUPERUSER_ID
                 attivita_obj.create(cr, SUPERUSER_ID, activity_vals, context=None)
                 self.write(cr, uid, [prot.id], {'assigne_users': [(4, attivita_titolario.assegnatario_id.id)]})
+
+
+    def prendi_in_carico(self, cr, uid, ids, context=None):
+        attivita_obj = self.pool.get('attivita.attivita')
+        result = super(protocollo_protocollo, self).prendi_in_carico(cr, uid, ids)
+        dummy, category_id = self.pool.get(
+            'ir.model.data').get_object_reference(
+            cr, uid, 'seedoo_attivita', 'attivita_categoria_assegnazione')
+        attivita_ids = attivita_obj.search(cr, uid,
+                                                [('protocollo_id', '=',
+                                                  ids[0]),
+                                                 ('assegnatario_id', '=', uid),
+                                                 ('categoria', '=',
+                                                  category_id),
+                                                 ('state', 'in',
+                                                  ['assegnato',
+                                                   'lavorazione'])])
+        for attivita_id in attivita_ids:
+            attivita_obj.write(cr, uid, attivita_id,
+                               {'assegnatario_id': uid, 'state': 'lavorazione',
+                                'data_presa_carico': time.strftime("%Y-%m-%d"),
+                                'richiesta_integrazione': False})
+
+            if attivita_obj.browse(cr, uid, attivita_id).singola_azione:
+                attivita_obj.concludi(cr, uid, attivita_id)
+        owner_name = self.pool.get('res.users').browse(cr,uid,uid).name
+        motivazione_annullamento = 'Protocollo preso in carico da %s' %(owner_name)
+
+        attivita_ids = attivita_obj.search(cr, SUPERUSER_ID,
+                                        [('protocollo_id', '=',ids[0]),
+                                         ('assegnatario_id', '!=', uid),
+                                         ('categoria', '=',
+                                          category_id),
+                                         ('state', 'in',
+                                          ['assegnato',
+                                           'lavorazione'])])
+        for attivita_id in attivita_ids:
+            attivita_obj.write(cr, SUPERUSER_ID, attivita_id,
+                               {'state': 'annullato',
+                                'data_conclusione': time.strftime("%Y-%m-%d"),
+                                'richiesta_integrazione': False,
+                                'motivazione_annullamento': motivazione_annullamento})
+        return result
+
+    def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
+        attivita_obj = self.pool.get('attivita.attivita')
+        result = super(protocollo_protocollo, self).rifiuta_presa_in_carico(cr, uid, ids)
+        dummy, category_id = self.pool.get(
+            'ir.model.data').get_object_reference(
+            cr, uid, 'seedoo_attivita', 'attivita_categoria_assegnazione')
+        attivita_ids = attivita_obj.search(cr, uid,
+                                                [('protocollo_id', '=',
+                                                  ids[0]),
+                                                 ('assegnatario_id', '=', uid),
+                                                 ('categoria', '=',
+                                                  category_id),
+                                                 ('state', 'in',
+                                                  ['assegnato',
+                                                   'lavorazione'])])
+        for attivita_id in attivita_ids:
+            attivita_obj.write(cr, SUPERUSER_ID, attivita_id,
+                               {'state': 'annullato',
+                                'data_conclusione': time.strftime("%Y-%m-%d"),
+                                'richiesta_integrazione': False,
+                                'motivazione_annullamento': 'Rifiutata assegnazione'})
+        return result
