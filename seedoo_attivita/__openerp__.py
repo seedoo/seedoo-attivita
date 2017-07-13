@@ -3,7 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 { 'name': 'Seedoo Attività',
-    'version': '8.0.1.5.0',
+    'version': '8.0.1.5.1',
     'category': 'Process',
     'summary': 'Gestione Attività Seedoo',
     'author': 'Flosslab',
