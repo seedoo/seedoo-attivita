@@ -19,10 +19,9 @@ this module contains the full copyright notices and license terms. -->
         <record model='ir.ui.view' id='protocollo_protocollo_attivita_form'>
             <field name="name">protocollo.protocollo.form</field>
             <field name="model">protocollo.protocollo</field>
-            <field name="inherit_id"
-                   ref="seedoo_protocollo.protocollo_protocollo_form"/>
+            <field name="inherit_id" ref="seedoo_protocollo.protocollo_protocollo_form"/>
             <field name="arch" type="xml">
-                <page string="Storico Modifiche" position="after">
+                <page string="Assegnatari" position="after">
                     <page string="Attivita Correlate">
                         <group>
                             <button name="%(create_activity_from_protocol_action)d"
@@ -83,12 +82,10 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.ui.view'
-                id='protocollo_classification_attivita_form'>
+        <record model='ir.ui.view' id='protocollo_classification_attivita_form'>
             <field name="name">protocollo.classification.form</field>
             <field name="model">protocollo.classification</field>
-            <field name="inherit_id"
-                   ref="seedoo_gedoc.protocollo_classification_form"/>
+            <field name="inherit_id" ref="seedoo_gedoc.protocollo_classification_form"/>
             <field name="priority" eval="5"/>
             <field name="arch" type="xml">
                 <page string="Fascicoli" position="after">
@@ -96,6 +93,19 @@ this module contains the full copyright notices and license terms. -->
                         <field name="attivita_ids" nolabel="1"/>
                     </page>
                 </page>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_aoo_form'>
+            <field name="name">protocollo.aoo.form</field>
+            <field name="model">protocollo.aoo</field>
+            <field name="inherit_id" ref="seedoo_protocollo.protocollo_aoo_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@class='fascicoli_titolario_aoo']" position="after">
+                    <page string="Attivita">
+                        <field name="attivita_ids" nolabel="1"/>
+                    </page>
+                </xpath>
             </field>
         </record>
 
