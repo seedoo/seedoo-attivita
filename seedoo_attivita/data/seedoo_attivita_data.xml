@@ -9,30 +9,53 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Assegnazione Protocollo</field>
             <field name="tempo_standard">5</field>
             <field name="protocollo">True</field>
+            <field name="singola_azione">True</field>
+            <field name="smistabile" eval="False"/>
+            <field name="automatica">True</field>
+            <field name="richiede_validazione" eval="False"/>
         </record>
 
         <record id="attivita_categoria_classificazione" model="attivita.categoria">
             <field name="name">Richiesta Classificazione Protocollo</field>
             <field name="tempo_standard">5</field>
             <field name="protocollo">True</field>
+            <field name="singola_azione">True</field>
+            <field name="smistabile" eval="False"/>
+            <field name="automatica" eval="False"/>
+            <field name="richiede_validazione">False</field>
+            <field name="azione" ref="seedoo_protocollo.protocollo_classifica_action"/>
         </record>
 
         <record id="attivita_categoria_fascicolazione" model="attivita.categoria">
             <field name="name">Richiesta Fascicolazione</field>
             <field name="tempo_standard">5</field>
             <field name="protocollo">True</field>
+            <field name="singola_azione">True</field>
+            <field name="smistabile" eval="False"/>
+            <field name="automatica" eval="False"/>
+            <field name="richiede_validazione" eval="False"/>
+            <field name="azione" ref="seedoo_protocollo.protocollo_fascicola_action"/>
         </record>
 
         <record id="attivita_categoria_protocollazione" model="attivita.categoria">
             <field name="name">Richiesta Protocollazione Documento</field>
             <field name="tempo_standard">3</field>
             <field name="protocollo">True</field>
+            <field name="singola_azione" eval="False"/>
+            <field name="smistabile" eval="False"/>
+            <field name="automatica" eval="False"/>
+            <field name="richiede_validazione" eval="False"/>
         </record>
 
         <record id="attivita_categoria_annullamento" model="attivita.categoria">
             <field name="name">Richiesta Annullamento Protocollo</field>
             <field name="tempo_standard">5</field>
             <field name="protocollo">True</field>
+            <field name="singola_azione">True</field>
+            <field name="smistabile" eval="False"/>
+            <field name="automatica" eval="False"/>
+            <field name="richiede_validazione" eval="False"/>
+            <field name="azione" ref="seedoo_protocollo.protocollo_cancel_action"/>
         </record>
         
     </data>
