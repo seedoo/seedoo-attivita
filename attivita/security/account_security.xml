@@ -4,51 +4,61 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data noupdate="0">
+
+        <record model="ir.module.category" id="module_attivita_category">
+            <field name="name">Seedoo Attività</field>
+            <field name="sequence">10</field>
+        </record>
+
         <record id="res_groups_attivita_manager" model="res.groups">
-            <field name="name">Manager Attivita</field>
+            <field name="name">Manager Attività</field>
+            <field name="category_id" ref="module_attivita_category"/>
         </record>
 
         <record id="res_groups_attivita_monitor" model="res.groups">
-            <field name="name">Monitoraggio Attivita</field>
+            <field name="name">Monitoraggio Attività</field>
+            <field name="category_id" ref="module_attivita_category"/>
         </record>
         <record id="res_groups_referente" model="res.groups">
-            <field name="name">Referente Attivita</field>
+            <field name="name">Referente Attività</field>
+            <field name="category_id" ref="module_attivita_category"/>
         </record>
 
         <record id="res_groups_assegnatario" model="res.groups">
             <field name="name">Assegnatario Attività</field>
+            <field name="category_id" ref="module_attivita_category"/>
         </record>
     </data>
     <data noupdate="0">
         <record id="attivita_manager_rule" model="ir.rule">
-            <field name="name">Manager Attivita</field>
+            <field name="name">Manager Attività</field>
             <field name="model_id" ref="model_attivita_attivita"/>
             <field name="domain_force">[(1,'=',1)]</field>
             <field name="groups"
                    eval="[(4, ref('res_groups_attivita_manager'))]"/>
         </record>
         <record id="attivita_monitor_rule" model="ir.rule">
-            <field name="name">Monitoraggio Attivita</field>
+            <field name="name">Monitoraggio Attività</field>
             <field name="model_id" ref="model_attivita_attivita"/>
             <field name="domain_force">[(1,'=',1)]</field>
             <field name="groups"
                    eval="[(4, ref('res_groups_attivita_monitor'))]"/>
         </record>
         <record id="attivita_referente_rule" model="ir.rule">
-            <field name="name">Attivita Referente</field>
+            <field name="name">Attività Referente</field>
             <field name="model_id" ref="model_attivita_attivita"/>
             <field name="groups" eval="[(4, ref('res_groups_referente'))]"/>
             <field name="domain_force">[('referente_id','=',[user.id])]</field>
         </record>
         <record id="attivita_assegnatario_rule" model="ir.rule">
-            <field name="name">Attivita Assegnatario</field>
+            <field name="name">Attività Assegnatario</field>
             <field name="model_id" ref="model_attivita_attivita"/>
             <field name="groups" eval="[(4, ref('res_groups_assegnatario'))]"/>
             <field name="domain_force">[('assegnatario_id','=',[user.id])]
             </field>
         </record>
         <record id="attivita_aggiornamenti_rule" model="ir.rule">
-            <field name="name">Attivita Aggiornamenti</field>
+            <field name="name">Attività Aggiornamenti</field>
             <field name="model_id" ref="model_attivita_aggiornamento"/>
             <field name="groups"
                    eval="[(4,ref('res_groups_assegnatario')),(4,ref('res_groups_referente'))]"/>
