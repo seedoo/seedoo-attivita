@@ -23,12 +23,12 @@ Credits
 Contributors
 ------------
 
-* Saul Lai <saul.lai@flosslab.com>
-* Francesco Alba <francesco.alba@flosslab.com>
-* Andrea Peruzzu <andrea.peruzzu@flosslab.com>
-* Luca Cireddu <luca.cireddu@flosslab.com>
-* Daniele Sanna <daniele.sanna@flosslab.com>
-* Antonio Ariu <antonio.ariu@flosslab.com>
+* Saul Lai
+* Francesco Alba
+* Andrea Peruzzu
+* Luca Cireddu
+* Daniele Sanna
+* Antonio Ariu
 
 
 Maintainer
