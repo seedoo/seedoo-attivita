@@ -28,12 +28,12 @@ Images
 Contributors
 ------------
 
-* Saul Lai <saul.lai@flosslab.com>
-* Francesco Alba <francesco.alba@flosslab.com>
-* Andrea Peruzzu <andrea.peruzzu@flosslab.com>
-* Luca Cireddu <luca.cireddu@flosslab.com>
-* Daniele Sanna <norman.argiolas@flosslab.com>
-* Norman Argiolas <norman.argiolas@flosslab.com>
+* Saul Lai
+* Francesco Alba
+* Andrea Peruzzu
+* Luca Cireddu
+* Daniele Sanna
+* Norman Argiolas
 
 
 Maintainer
@@ -45,6 +45,6 @@ Maintainer
 
 This module is maintained by the Flosslab.
 
-Seedoo Dematirializzazione è un prodotto Flosslab, azienda specializzata nella realizzazione di software avanzati per Pubbliche Amministrazioni ed Enti Privati.
+Seedoo Attività è un prodotto Flosslab, azienda specializzata nella realizzazione di software avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
 To contribute to this module, please visit http://www.flosslab.com
